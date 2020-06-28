@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emoji_picker/emoji_picker.dart';
 import 'package:flutter/material.dart';
@@ -5,8 +7,10 @@ import 'package:flutter_skype/models/message.dart';
 import 'package:flutter_skype/models/user.dart';
 import 'package:flutter_skype/resources/firebase_repository.dart';
 import 'package:flutter_skype/utils/universal_variables.dart';
+import 'package:flutter_skype/utils/utilities.dart';
 import 'package:flutter_skype/widgets/custom_app_bar.dart';
 import 'package:flutter_skype/widgets/custom_tile.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ChatScreen extends StatefulWidget {
   final User receiver;
@@ -267,6 +271,14 @@ class _ChatScreenState extends State<ChatScreen> {
           });
     }
 
+    pickImage({@required ImageSource source}) async {
+      File selectedImage = await Utils.pickImage(source: source);
+      _repository.uploadImage(
+          image: selectedImage,
+          receiverId: widget.receiver.uid,
+          senderId: _currentUserId);
+    }
+
     return Container(
       padding: EdgeInsets.all(10),
       child: Row(
@@ -279,7 +291,10 @@ class _ChatScreenState extends State<ChatScreen> {
                 gradient: UniversalVariables.fadeGradient,
                 shape: BoxShape.circle,
               ),
-              child: Icon(Icons.add, color: Colors.white,),
+              child: Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
             ),
           ),
           SizedBox(
@@ -349,9 +364,12 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
           isWriting
               ? Container()
-              : Icon(
-                  Icons.camera_alt,
-                  color: Colors.white,
+              : GestureDetector(
+                  onTap: () => pickImage(source: ImageSource.gallery),
+                  child: Icon(
+                    Icons.camera_alt,
+                    color: Colors.white,
+                  ),
                 ),
           isWriting
               ? Container(
