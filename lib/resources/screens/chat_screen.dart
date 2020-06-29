@@ -3,14 +3,19 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emoji_picker/emoji_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_skype/constants/strings.dart';
+import 'package:flutter_skype/enum/view_state.dart';
 import 'package:flutter_skype/models/message.dart';
 import 'package:flutter_skype/models/user.dart';
+import 'package:flutter_skype/provider/image_upload_provider.dart';
 import 'package:flutter_skype/resources/firebase_repository.dart';
 import 'package:flutter_skype/utils/universal_variables.dart';
 import 'package:flutter_skype/utils/utilities.dart';
+import 'package:flutter_skype/widgets/cached_image.dart';
 import 'package:flutter_skype/widgets/custom_app_bar.dart';
 import 'package:flutter_skype/widgets/custom_tile.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class ChatScreen extends StatefulWidget {
   final User receiver;
@@ -25,6 +30,8 @@ class _ChatScreenState extends State<ChatScreen> {
   FocusNode _focusNode = FocusNode();
   FirebaseRepository _repository = FirebaseRepository();
 
+  ImageUploadProvider _imageUploadProvider;
+
   bool isWriting = false;
   bool showEmojiPicker = false;
   User sender;
@@ -38,7 +45,10 @@ class _ChatScreenState extends State<ChatScreen> {
       _currentUserId = user.uid;
       setState(() {
         sender = User(
-            uid: user.uid, name: user.displayName, profilePhoto: user.photoUrl);
+          uid: user.uid,
+          name: user.displayName,
+          profilePhoto: user.photoUrl,
+        );
       });
     });
   }
@@ -60,6 +70,8 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _imageUploadProvider = Provider.of<ImageUploadProvider>(context);
+
     return Scaffold(
       backgroundColor: UniversalVariables.blackColor,
       appBar: customAppBar(context),
@@ -68,6 +80,13 @@ class _ChatScreenState extends State<ChatScreen> {
           Flexible(
             child: messageList(),
           ),
+          _imageUploadProvider.getViewState == ViewState.LOADING
+              ? Container(
+                  child: CircularProgressIndicator(),
+                  margin: EdgeInsets.only(right: 15),
+                  alignment: Alignment.centerRight,
+                )
+              : Container(),
           chatControls(),
           showEmojiPicker ? Container(child: emojiContainer()) : Container(),
         ],
@@ -160,10 +179,14 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   getMessage(Message message) {
-    return Text(
-      message.message,
-      style: TextStyle(color: Colors.white, fontSize: 16.0),
-    );
+    return message.type != MESSAGE_TYPE_IMAGE
+        ? Text(
+            message.message,
+            style: TextStyle(color: Colors.white, fontSize: 16.0),
+          )
+        : message.photoUrl != null
+            ? CachedImage(url: message.photoUrl)
+            : Text("url is null");
   }
 
   Widget receiverLayout(Message message) {
@@ -276,7 +299,8 @@ class _ChatScreenState extends State<ChatScreen> {
       _repository.uploadImage(
           image: selectedImage,
           receiverId: widget.receiver.uid,
-          senderId: _currentUserId);
+          senderId: _currentUserId,
+          imageUploadProvider: _imageUploadProvider);
     }
 
     return Container(

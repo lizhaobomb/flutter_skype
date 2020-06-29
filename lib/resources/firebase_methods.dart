@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_skype/models/message.dart';
 import 'package:flutter_skype/models/user.dart';
+import 'package:flutter_skype/provider/image_upload_provider.dart';
 import 'package:flutter_skype/utils/utilities.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -137,8 +138,10 @@ class FirebaseMethods {
         .add(map);
   }
 
-  void uploadImage(File image, String receiverId, String senderId) async {
+  void uploadImage(File image, String receiverId, String senderId, ImageUploadProvider imageUploadProvider) async {
+    imageUploadProvider.setToLoading();
     String url = await uploadImageToStorage(image);
+    imageUploadProvider.setToIdle();
     setImageMsg(url, receiverId, senderId);
   }
 }

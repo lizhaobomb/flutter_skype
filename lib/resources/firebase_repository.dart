@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_skype/models/message.dart';
 import 'package:flutter_skype/models/user.dart';
+import 'package:flutter_skype/provider/image_upload_provider.dart';
 import 'package:flutter_skype/resources/firebase_methods.dart';
 import 'package:image_picker_platform_interface/src/types/picked_file/unsupported.dart';
 
@@ -20,5 +21,5 @@ class FirebaseRepository {
 
   Future<void> addMessageToDb(Message message, User sender, User receiver) => _firebaseMethods.addMessageToDb(message, sender, receiver);
 
-  void uploadImage({@required File image, @required String receiverId, @required String senderId}) => _firebaseMethods.uploadImage(image,receiverId,senderId);
+  void uploadImage({@required File image, @required String receiverId, @required String senderId, @required ImageUploadProvider imageUploadProvider}) => _firebaseMethods.uploadImage(image,receiverId,senderId, imageUploadProvider);
 }
