@@ -9,6 +9,7 @@ import 'package:flutter_skype/models/message.dart';
 import 'package:flutter_skype/models/user.dart';
 import 'package:flutter_skype/provider/image_upload_provider.dart';
 import 'package:flutter_skype/resources/firebase_repository.dart';
+import 'package:flutter_skype/utils/call_utilities.dart';
 import 'package:flutter_skype/utils/universal_variables.dart';
 import 'package:flutter_skype/utils/utilities.dart';
 import 'package:flutter_skype/widgets/cached_image.dart';
@@ -447,7 +448,11 @@ class _ChatScreenState extends State<ChatScreen> {
       actions: <Widget>[
         IconButton(
           icon: Icon(Icons.video_call),
-          onPressed: () {},
+          onPressed: () => CallUtilities.dial(
+            from: sender,
+            to: widget.receiver,
+            context: context,
+          ),
         ),
         IconButton(
           icon: Icon(Icons.phone),
