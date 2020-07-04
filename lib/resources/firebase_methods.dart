@@ -1,8 +1,10 @@
+
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_skype/constants/strings.dart';
 import 'package:flutter_skype/models/message.dart';
 import 'package:flutter_skype/models/user.dart';
 import 'package:flutter_skype/provider/image_upload_provider.dart';
@@ -13,15 +15,21 @@ class FirebaseMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   GoogleSignIn _googleSignIn = GoogleSignIn();
   static final Firestore firestore = Firestore.instance;
-
   StorageReference _storageReference;
-
+  static final CollectionReference _userCollection = firestore.collection(USERS_COLLECTION);
   User user = User();
 
   Future<FirebaseUser> getCurrentUser() async {
     FirebaseUser currentUser;
     currentUser = await _auth.currentUser();
     return currentUser;
+  }
+
+  Future<User> getUserDetails() async {
+    FirebaseUser currentUser = await getCurrentUser();
+    DocumentSnapshot documentSnapshot =
+        await _userCollection.document(currentUser.uid).get();
+    return User.fromMap(documentSnapshot.data);
   }
 
   Future<FirebaseUser> signIn() async {
@@ -138,7 +146,8 @@ class FirebaseMethods {
         .add(map);
   }
 
-  void uploadImage(File image, String receiverId, String senderId, ImageUploadProvider imageUploadProvider) async {
+  void uploadImage(File image, String receiverId, String senderId,
+      ImageUploadProvider imageUploadProvider) async {
     imageUploadProvider.setToLoading();
     String url = await uploadImageToStorage(image);
     imageUploadProvider.setToIdle();

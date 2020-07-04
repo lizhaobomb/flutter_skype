@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_skype/provider/user_provider.dart';
 import 'package:flutter_skype/utils/universal_variables.dart';
+import 'package:provider/provider.dart';
 
 import 'chat_list_screen.dart';
 
@@ -12,13 +15,17 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _page = 0;
   PageController pageController;
-
+  UserProvider userProvider;
   double _labelFontSize = 10;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) { 
+      userProvider = Provider.of<UserProvider>(context, listen: false);
+      userProvider.refreshUser();
+    });
     pageController = PageController();
   }
 
