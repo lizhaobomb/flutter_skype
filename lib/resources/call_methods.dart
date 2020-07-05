@@ -9,7 +9,7 @@ class CallMethods {
       callCollection.document(uid).snapshots();
 
   Future<bool> makeCall({Call call}) async {
-    call.hasDialled = true;
+    // call.hasDialled = true;
 
     try {
       Map<String, dynamic> hasDialledMap = call.toMap(call);

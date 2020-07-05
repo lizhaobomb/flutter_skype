@@ -3,22 +3,52 @@ import 'package:flutter/material.dart';
 import 'package:flutter_skype/utils/universal_variables.dart';
 
 class CachedImage extends StatelessWidget {
-  final String url;
+  final String imageUrl;
+  final bool isRound;
+  final double radius;
+  final double height;
+  final double width;
 
-  const CachedImage({Key key, @required this.url}) : super(key: key);
+  final BoxFit fit;
+
+  final String noImageAvailable =
+      "https://www.esm.rochester.edu/uploads/NoPhotoAvailable.jpg";
+
+  CachedImage(
+    this.imageUrl, {
+    this.isRound = false,
+    this.radius,
+    this.height,
+    this.width,
+    this.fit = BoxFit.cover,
+  });
+
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 200,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(5),
-        child: CachedNetworkImage(
-          imageUrl: url,
-          placeholder: (context, url) => Center(
-            child: CircularProgressIndicator(backgroundColor: UniversalVariables.blueColor),
+    try {
+      return SizedBox(
+        height: isRound ? radius : height,
+        width: isRound ? radius : width,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(isRound ? 50 : radius),
+          child: CachedNetworkImage(
+            imageUrl: imageUrl,
+            placeholder: (context, url) => Center(
+              child: CircularProgressIndicator(),
+            ),
+            errorWidget: (context, url, error) => Image.network(
+              noImageAvailable,
+              fit: fit,
+            ),
           ),
         ),
-      ),
-    );
+      );
+    } catch (e) {
+      print(e);
+      return Image.network(
+        noImageAvailable,
+        fit: fit,
+      );
+    }
   }
 }

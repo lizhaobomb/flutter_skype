@@ -186,7 +186,12 @@ class _ChatScreenState extends State<ChatScreen> {
             style: TextStyle(color: Colors.white, fontSize: 16.0),
           )
         : message.photoUrl != null
-            ? CachedImage(url: message.photoUrl)
+            ? CachedImage(
+                message.photoUrl,
+                width: 250,
+                height: 250,
+                radius: 10,
+              )
             : Text("url is null");
   }
 
