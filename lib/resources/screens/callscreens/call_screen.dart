@@ -99,6 +99,7 @@ class _CallScreenState extends State<CallScreen> {
     };
 
     AgoraRtcEngine.onUserOffline = (int uid, int reason) {
+      callMethods.endCall(call: widget.call);
       setState(() {
         final info = 'userOffline: $uid';
         _infoStrings.add(info);
@@ -218,6 +219,7 @@ class _CallScreenState extends State<CallScreen> {
   void _onSwitchCamera() {
     AgoraRtcEngine.switchCamera();
   }
+
 
   /// Toolbar layout
   Widget _toolbar() {
