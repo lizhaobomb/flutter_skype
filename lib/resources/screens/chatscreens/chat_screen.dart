@@ -10,12 +10,14 @@ import 'package:flutter_skype/models/user.dart';
 import 'package:flutter_skype/provider/image_upload_provider.dart';
 import 'package:flutter_skype/resources/firebase_repository.dart';
 import 'package:flutter_skype/utils/call_utilities.dart';
+import 'package:flutter_skype/utils/permissons.dart';
 import 'package:flutter_skype/utils/universal_variables.dart';
 import 'package:flutter_skype/utils/utilities.dart';
 import 'package:flutter_skype/widgets/cached_image.dart';
 import 'package:flutter_skype/widgets/custom_app_bar.dart';
 import 'package:flutter_skype/widgets/custom_tile.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -453,11 +455,14 @@ class _ChatScreenState extends State<ChatScreen> {
       actions: <Widget>[
         IconButton(
           icon: Icon(Icons.video_call),
-          onPressed: () => CallUtilities.dial(
-            from: sender,
-            to: widget.receiver,
-            context: context,
-          ),
+          onPressed: () async =>
+              await Permissions.cameraAndMicrophonePermissionsGranted()
+                  ? CallUtilities.dial(
+                      from: sender,
+                      to: widget.receiver,
+                      context: context,
+                    )
+                  : {},
         ),
         IconButton(
           icon: Icon(Icons.phone),

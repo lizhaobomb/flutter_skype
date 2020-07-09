@@ -8,7 +8,7 @@ import 'package:flutter_skype/utils/universal_variables.dart';
 import 'package:flutter_skype/widgets/custom_tile.dart';
 import 'package:gradient_app_bar/gradient_app_bar.dart';
 
-import 'chat_screen.dart';
+import 'chatscreens/chat_screen.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -24,7 +24,6 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     _repository.getCurrentUser().then((FirebaseUser user) {

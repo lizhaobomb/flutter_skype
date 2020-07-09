@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter_skype/enum/user_state.dart';
 import 'package:image/image.dart' as Im;
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -34,5 +35,29 @@ class Utils {
     Im.copyResize(image, width: 500, height: 500);
     return File('$path/img_$random.jpg')
       ..writeAsBytesSync(Im.encodeJpg(image, quality: 85));
+  }
+
+  static int stateToNum(UserState userState) {
+    switch (userState) {
+      case UserState.Offline:
+        return 0;
+      case UserState.Online:
+        return 1;
+
+      default:
+        return 2;
+    }
+  }
+
+  static UserState numToUserState(int num) {
+    switch (num) {
+      case 0:
+        return UserState.Offline;
+      case 1:
+        return UserState.Online;
+
+      default:
+        return UserState.Waiting;
+    }
   }
 }
