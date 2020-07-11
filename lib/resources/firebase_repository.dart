@@ -23,7 +23,7 @@ class FirebaseRepository {
       _authMethods.authenticateUser(user);
   Future<void> addDataToDb(FirebaseUser user) =>
       _firebaseMethods.addDataToDb(user);
-  Future<void> signOut() => _authMethods.signOut();
+  Future<bool> signOut() => _authMethods.signOut();
   Future<List<User>> fetchAllUsers(FirebaseUser currentUser) =>
       _firebaseMethods.fetchAllUsers(currentUser);
 

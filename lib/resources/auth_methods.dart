@@ -61,10 +61,15 @@ class AuthMethods {
     return docs.length == 0 ? true : false;
   }
 
-  Future<void> signOut() async {
-    await _googleSignIn.disconnect();
-    await _googleSignIn.signOut();
-    return await _auth.signOut();
+  Future<bool> signOut() async {
+    try {
+      await _googleSignIn.disconnect();
+      await _googleSignIn.signOut();
+      await _auth.signOut();
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   void setUserState({@required String userId, @required UserState userState}) {
@@ -73,6 +78,6 @@ class AuthMethods {
   }
 
   Stream<DocumentSnapshot> getUserStream({@required String uid}) {
-    return  _userCollection.document(uid).snapshots();
+    return _userCollection.document(uid).snapshots();
   }
 }
