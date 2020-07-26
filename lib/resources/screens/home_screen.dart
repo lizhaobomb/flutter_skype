@@ -96,6 +96,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               child: Text("Contact Screen",
                   style: TextStyle(color: UniversalVariables.greyColor)),
             ),
+             Center(
+              child: Text("Living Screen",
+                  style: TextStyle(color: UniversalVariables.greyColor)),
+            ),
           ],
           controller: pageController,
           onPageChanged: pageChanged,
@@ -148,6 +152,22 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   ),
                   title: Text(
                     "Contacts",
+                    style: TextStyle(
+                        fontSize: _labelFontSize,
+                        color: _page == 2
+                            ? UniversalVariables.lightBlueColor
+                            : UniversalVariables.greyColor),
+                  ),
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.live_tv,
+                    color: _page == 3
+                        ? UniversalVariables.lightBlueColor
+                        : UniversalVariables.greyColor,
+                  ),
+                  title: Text(
+                    "Living",
                     style: TextStyle(
                         fontSize: _labelFontSize,
                         color: _page == 2

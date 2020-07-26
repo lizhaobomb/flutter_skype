@@ -16,7 +16,7 @@ class Call {
     this.receiverName,
     this.receiverPic,
     this.channelId,
-    this.hasDialled,
+    this.hasDialled = false,
   });
 
   Map<String, dynamic> toMap(Call call) {
