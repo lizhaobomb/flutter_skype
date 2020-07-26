@@ -17,9 +17,12 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Screen SnapShot
 
-![Home](https://ae01.alicdn.com/kf/Ha4ac9dfdf20645ffbcf5e3b363fcb7aaX.jpg)
-![Search](https://ae01.alicdn.com/kf/H006dbbbbebfa4aed8748e8014e3d42ffO.jpg)
-![Chat](https://ae01.alicdn.com/kf/H416b7088bc124244bdc683b631a4f43ex.jpg)
+<p>
+<img src="https://ae01.alicdn.com/kf/Ha4ac9dfdf20645ffbcf5e3b363fcb7aaX.jpg" alt="Home" width="250">
+<img src="https://ae01.alicdn.com/kf/H006dbbbbebfa4aed8748e8014e3d42ffO.jpg" alt="Search" width="250">
+<img src="https://ae01.alicdn.com/kf/H416b7088bc124244bdc683b631a4f43ex.jpg" alt="Chat" width="250">
+
+</p>
 
 ## Appreciate
 ![the cs guy]https://www.youtube.com/watch?v=01PUYvVoLa8&list=PLTHrJfrjCyJDlOLSIT3bm2xCCuPanUNX4
