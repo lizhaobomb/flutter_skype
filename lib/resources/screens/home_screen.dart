@@ -5,6 +5,7 @@ import 'package:flutter_skype/enum/user_state.dart';
 import 'package:flutter_skype/provider/user_provider.dart';
 import 'package:flutter_skype/resources/auth_methods.dart';
 import 'package:flutter_skype/resources/screens/callscreens/pickup/pickup_layout.dart';
+import 'package:flutter_skype/resources/screens/livingscreens/living_screen.dart';
 import 'package:flutter_skype/utils/universal_variables.dart';
 import 'package:provider/provider.dart';
 
@@ -97,8 +98,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   style: TextStyle(color: UniversalVariables.greyColor)),
             ),
              Center(
-              child: Text("Living Screen",
-                  style: TextStyle(color: UniversalVariables.greyColor)),
+              child: LivingScreen()
             ),
           ],
           controller: pageController,
